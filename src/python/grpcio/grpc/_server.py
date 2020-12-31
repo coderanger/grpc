@@ -459,7 +459,9 @@ def _take_response_from_response_iterator(rpc_event, state, response_iterator):
                 _abort(state, rpc_event.call, cygrpc.StatusCode.unknown,
                        b'RPC Aborted')
             elif exception not in state.rpc_errors:
-                details = 'Exception iterating responses: {}'.format(exception)
+                import sys, traceback
+                details = 'Exception iterating responses: {}'.format(traceback.format_exception(*sys.exc_info()))
+                traceback.print_exception(*sys.exc_info()
                 _LOGGER.exception(details)
                 _abort(state, rpc_event.call, cygrpc.StatusCode.unknown,
                        _common.encode(details))
